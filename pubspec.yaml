@@ -1,7 +1,7 @@
 name: pin_plus_keyboard
-description: A new Flutter package project.
+description: A flutter package that gives you custom input fields and a custom keyboard for one time password widgets, transaction pin widgets and simple login widgets.
 version: 0.0.1
-homepage:
+homepage: https://github.com/JoshuaObateru/pin_plus_keyboard
 
 environment:
   sdk: ">=2.17.0-69.2.beta <3.0.0"

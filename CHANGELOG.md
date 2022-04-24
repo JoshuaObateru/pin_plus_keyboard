@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+- A flutter package that gives you custom input fields and a custom keyboard for one time password widgets, transaction pin widgets and simple login widgets.
