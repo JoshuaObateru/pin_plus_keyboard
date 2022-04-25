@@ -117,12 +117,12 @@ class _ExampleState extends State<Example> {
 
 ```
 
-<!-- <img src="https://github.com/JoshuaObateru/pin_plus_keyboard/blob/main/example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.24.51.png" width="400"> <img src="https://github.com/JoshuaObateru/pin_plus_keyboard/blob/main/example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.32.13.png" width="400"> -->
+<img src="https://raw.githubusercontent.com/JoshuaObateru/pin_plus_keyboard/0c2abd65e0f677fbbbe267e10655459099516199/example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.24.51.png" width="400"> <img src="https://raw.githubusercontent.com/JoshuaObateru/pin_plus_keyboard/main/example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.32.13.png" width="400">
 
 <!-- ![images](./example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.24.51.png)
 ![images](./example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.32.13.png) -->
 
-![images](./example/images/pin_plus_keyboard_example_images.png)
+<!-- ![images](./example/images/pin_plus_keyboard_example_images.png) -->
 
 ## Properties
 
