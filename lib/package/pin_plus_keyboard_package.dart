@@ -188,7 +188,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
     if (res.length >= widget.pinInputController.length) {
       widget.onSubmit();
       setState(() {
-        errorText = 'Please fill all fields';
+        errorText = '';
       });
     }
   }

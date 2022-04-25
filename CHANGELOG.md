@@ -5,3 +5,7 @@
 ## 0.0.2
 
 - fixed compatibility issues.
+
+## 0.0.3
+
+- bug fixes.
