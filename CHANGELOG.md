@@ -17,3 +17,7 @@
 ## 0.0.5
 
 - added example images.
+
+## 0.0.6
+
+- updated example.

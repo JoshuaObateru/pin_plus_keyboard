@@ -22,9 +22,31 @@ class _ExampleState extends State<Example> {
             width: size.width,
             height: size.height,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Text(
+                    "Welcome Back",
+                    style: TextStyle(
+                      fontSize: size.width * 0.07,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Enter Passcode",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w300,
+                        fontSize: size.width * 0.05),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
                 SizedBox(
-                  height: size.height * 0.2,
+                  height: size.height * 0.05,
                 ),
                 PinPlusKeyBoardPackage(
                   spacing: size.height * 0.06,
