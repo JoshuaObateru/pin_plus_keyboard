@@ -21,6 +21,15 @@ dependencies:
 
 [Example] (https://github.com/JoshuaObateru/pin_plus_keyboard/blob/main/example/example.dart)
 
+Note: it is also important that you initialize the pinInputController to start using this package
+
+```dart
+  PinInputController pinInputController = PinInputController(length: 6); // the length can vary based on the number of inputs you want
+
+```
+
+### Normal Example
+
 ```dart
 import 'package:flutter/material.dart';
 import 'package:pin_plus_keyboard/package/controllers/pin_input_controller.dart';
@@ -34,21 +43,42 @@ class Example extends StatefulWidget {
 }
 
 class _ExampleState extends State<Example> {
-  PinInputController pinInputController = PinInputController(length: 6);
+  PinInputController pinInputController = PinInputController(length: 6); // very important
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: AppBar(),
         // ignore: sized_box_for_whitespace
         body: Container(
             width: size.width,
             height: size.height,
             child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Text(
+                    "Welcome Back",
+                    style: TextStyle(
+                      fontSize: size.width * 0.07,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Enter Passcode",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w300,
+                        fontSize: size.width * 0.05),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
                 SizedBox(
-                  height: size.height * 0.2,
+                  height: size.height * 0.05,
                 ),
                 PinPlusKeyBoardPackage(
                   spacing: size.height * 0.06,
@@ -64,6 +94,31 @@ class _ExampleState extends State<Example> {
 }
 
 ```
+
+### Example with filled and rounded inputs and buttons
+
+```dart
+ PinPlusKeyBoard2(
+    keyboardButtonShape: KeyboardButtonShape.circlar,
+    inputShape: InputShape.circlar,
+    keyboardMaxWidth: 70,
+    inputHasBorder: false,
+    inputFillColor: Colors.grey,
+    inputElevation: 3,
+    buttonFillColor: Colors.black,
+    btnTextColor: Colors.white,
+    spacing: size.height * 0.06,
+    pinInputController: pinInputController,
+    onSubmit: () {
+        // ignore: avoid_print
+        print("Text is : " + pinInputController.text);
+            },
+),
+
+```
+
+![images](./example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.24.51.png)
+![images](./example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.32.13.png)
 
 ## Properties
 
