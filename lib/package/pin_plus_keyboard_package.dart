@@ -326,7 +326,9 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                   // ignore: prefer_const_constructors
                   icon: Icon(
                     Icons.done,
-                    color: Colors.black,
+                    color: widget.inputFillColor ??
+                        widget.inputBorderColor ??
+                        Colors.black,
                   ),
                 ),
               ),
@@ -346,7 +348,9 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                   // ignore: prefer_const_constructors
                   icon: Icon(
                     Icons.backspace,
-                    color: Colors.black,
+                    color: widget.inputFillColor ??
+                        widget.inputBorderColor ??
+                        Colors.black,
                   ),
                 ),
               ),
