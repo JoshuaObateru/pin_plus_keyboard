@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pin_plus_keyboard/package/controllers/pin_input_controller.dart';
 
 enum KeyboardButtonShape { circlar, rounded, defaultShape }
+
 enum InputShape { circlar, rounded, defaultShape }
 
 class PinPlusKeyBoardPackage extends StatefulWidget {
@@ -31,6 +32,8 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
   final double? inputElevation;
   final Color? inputShadowColor;
   final Color errorColor;
+  final double? keyboardFontSize;
+  final BorderRadius? inputBorderRadius;
 
   const PinPlusKeyBoardPackage(
       {Key? key,
@@ -59,7 +62,9 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
       this.inputBorderThickness,
       this.inputElevation,
       this.inputShadowColor,
-      this.errorColor = Colors.red})
+      this.errorColor = Colors.red,
+      this.keyboardFontSize,
+      this.inputBorderRadius})
       : super(key: key);
 
   @override
@@ -169,7 +174,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: widget.btnTextColor ?? Colors.black,
-                  fontSize: _sizeW * 0.05),
+                  fontSize: widget.keyboardFontSize ?? _sizeW * 0.05),
             ),
           ),
         ),
@@ -182,7 +187,8 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
       setState(() {
         res = res + btnText;
         widget.pinInputController.changeText(res);
-        // textToDisplay = res;
+
+        /// textToDisplay = res;
       });
     }
     if (res.length >= widget.pinInputController.length) {
@@ -207,9 +213,10 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
             color: widget.isInputHidden == true
                 ? widget.inputHiddenColor
                 : Colors.transparent,
-            borderRadius: widget.inputShape == InputShape.rounded
-                ? const BorderRadius.all(Radius.circular(100))
-                : null,
+            borderRadius: widget.inputBorderRadius ??
+                (widget.inputShape == InputShape.rounded
+                    ? const BorderRadius.all(Radius.circular(100))
+                    : null),
             boxShadow: [
               BoxShadow(
                 color: widget.inputElevation == null
@@ -229,7 +236,8 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
         child: Center(
             child: Text(
           res[position],
-          // ignore: prefer_const_constructors
+
+          /// ignore: prefer_const_constructors
           style: TextStyle(
             color: widget.isInputHidden == true
                 ? widget.inputHiddenColor
@@ -276,9 +284,6 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
       constraints: BoxConstraints(
         maxWidth: size.width * (widget.keyboardMaxWidth / 100),
       ),
-
-      // width: _sizeW * 0.6,
-      // height: _sizeH * 0.3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -333,11 +338,12 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                 ),
               ),
               keyboardButtons("0"),
-              //  keyboardButtons("X"),
+
+              ///  keyboardButtons("X"),
               Expanded(
                 child: IconButton(
                   onPressed: () {
-                    // ignore: prefer_is_empty
+                    /// ignore: prefer_is_empty
                     if (res.length > 0) {
                       setState(() {
                         res = res.substring(0, res.length - 1);
@@ -345,11 +351,13 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                       });
                     }
                   },
-                  // ignore: prefer_const_constructors
+
+                  /// ignore: prefer_const_constructors
                   icon: Icon(
                     Icons.backspace,
-                    color: widget.inputFillColor ??
-                        widget.inputBorderColor ??
+                    color: widget.btnTextColor ??
+                        widget.buttonFillColor ??
+                        widget.buttonBorderColor ??
                         Colors.black,
                   ),
                 ),

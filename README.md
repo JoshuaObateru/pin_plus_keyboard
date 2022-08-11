@@ -2,10 +2,6 @@
 
 A flutter package that gives you custom input fields and a custom keyboard for one time password widgets, transaction pin widgets and simple login widgets
 
-<!-- ## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos. -->
-
 ## Getting started
 
 To get started with this package: "add the dependency to your [pubspec.yaml] file"
@@ -24,7 +20,7 @@ dependencies:
 Note: it is also important that you initialize the pinInputController to start using this package
 
 ```dart
-  PinInputController pinInputController = PinInputController(length: 6); // the length can vary based on the number of inputs you want
+  PinInputController pinInputController = PinInputController(length: 6); /// the length can vary based on the number of inputs you want
 
 ```
 
@@ -43,13 +39,13 @@ class Example extends StatefulWidget {
 }
 
 class _ExampleState extends State<Example> {
-  PinInputController pinInputController = PinInputController(length: 6); // very important
+  PinInputController pinInputController = PinInputController(length: 6); /// very important
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-        // ignore: sized_box_for_whitespace
+        /// ignore: sized_box_for_whitespace
         body: Container(
             width: size.width,
             height: size.height,
@@ -84,7 +80,7 @@ class _ExampleState extends State<Example> {
                   spacing: size.height * 0.06,
                   pinInputController: pinInputController,
                   onSubmit: () {
-                    // ignore: avoid_print
+                    /// ignore: avoid_print
                     print("Text is : " + pinInputController.text);
                   },
                 ),
@@ -98,7 +94,7 @@ class _ExampleState extends State<Example> {
 ### Example with filled and rounded inputs and buttons
 
 ```dart
- PinPlusKeyBoard2(
+ PinPlusKeyBoardPackage(
     keyboardButtonShape: KeyboardButtonShape.circlar,
     inputShape: InputShape.circlar,
     keyboardMaxWidth: 70,
@@ -110,7 +106,7 @@ class _ExampleState extends State<Example> {
     spacing: size.height * 0.06,
     pinInputController: pinInputController,
     onSubmit: () {
-        // ignore: avoid_print
+        /// ignore: avoid_print
         print("Text is : " + pinInputController.text);
             },
 ),
@@ -118,11 +114,6 @@ class _ExampleState extends State<Example> {
 ```
 
 <img src="https://raw.githubusercontent.com/JoshuaObateru/pin_plus_keyboard/0c2abd65e0f677fbbbe267e10655459099516199/example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.24.51.png" width="400"> <img src="https://raw.githubusercontent.com/JoshuaObateru/pin_plus_keyboard/main/example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.32.13.png" width="400">
-
-<!-- ![images](./example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.24.51.png)
-![images](./example/images/Simulator%20Screen%20Shot%20-%20iPhone%2013%20-%202022-04-25%20at%2007.32.13.png) -->
-
-<!-- ![images](./example/images/pin_plus_keyboard_example_images.png) -->
 
 ## Properties
 

@@ -17,7 +17,8 @@ class _ExampleState extends State<Example> {
 
     return Scaffold(
         appBar: AppBar(),
-        // ignore: sized_box_for_whitespace
+
+        /// ignore: sized_box_for_whitespace
         body: Container(
             width: size.width,
             height: size.height,
@@ -52,7 +53,7 @@ class _ExampleState extends State<Example> {
                   spacing: size.height * 0.06,
                   pinInputController: pinInputController,
                   onSubmit: () {
-                    // ignore: avoid_print
+                    /// ignore: avoid_print
                     print("Text is : " + pinInputController.text);
                   },
                 ),
