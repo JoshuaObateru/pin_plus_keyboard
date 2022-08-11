@@ -37,6 +37,7 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
   final double? inputHeignt;
   final Color? cancelColor;
   final String? extraInput;
+  final Widget? backButton;
 
   const PinPlusKeyBoardPackage(
       {Key? key,
@@ -70,7 +71,8 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
       this.inputBorderRadius,
       this.inputHeignt,
       this.cancelColor,
-      this.extraInput})
+      this.extraInput,
+      this.backButton})
       : super(key: key);
 
   @override
@@ -365,10 +367,11 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                   },
 
                   /// ignore: prefer_const_constructors
-                  icon: Icon(
-                    Icons.backspace,
-                    color: widget.cancelColor ?? Colors.black,
-                  ),
+                  icon: widget.backButton ??
+                      Icon(
+                        Icons.backspace,
+                        color: widget.cancelColor ?? Colors.black,
+                      ),
                 ),
               ),
             ],
