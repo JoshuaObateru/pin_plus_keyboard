@@ -34,6 +34,9 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
   final Color errorColor;
   final double? keyboardFontSize;
   final BorderRadius? inputBorderRadius;
+  final double? inputHeignt;
+  final Color? cancelColor;
+  final String? extraInput;
 
   const PinPlusKeyBoardPackage(
       {Key? key,
@@ -64,7 +67,10 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
       this.inputShadowColor,
       this.errorColor = Colors.red,
       this.keyboardFontSize,
-      this.inputBorderRadius})
+      this.inputBorderRadius,
+      this.inputHeignt,
+      this.cancelColor,
+      this.extraInput})
       : super(key: key);
 
   @override
@@ -202,7 +208,9 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
   Widget inputWidget(int position) {
     try {
       return Container(
-        height: widget.inputSize ?? MediaQuery.of(context).size.width * 0.1,
+        height: widget.inputHeignt ??
+            widget.inputSize ??
+            MediaQuery.of(context).size.width * 0.1,
         width: widget.inputSize ?? MediaQuery.of(context).size.width * 0.1,
         decoration: BoxDecoration(
             border: widget.inputHasBorder == false
@@ -247,7 +255,9 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
       );
     } catch (e) {
       return Container(
-        height: widget.inputSize ?? MediaQuery.of(context).size.width * 0.1,
+        height: widget.inputHeignt ??
+            widget.inputSize ??
+            MediaQuery.of(context).size.width * 0.1,
         width: widget.inputSize ?? MediaQuery.of(context).size.width * 0.1,
         decoration: BoxDecoration(
             color: widget.inputFillColor ?? Colors.transparent,
@@ -256,9 +266,10 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                 : Border.all(
                     color: widget.inputBorderColor ?? Colors.black,
                     width: widget.inputBorderThickness ?? 0),
-            borderRadius: widget.inputShape == InputShape.rounded
-                ? const BorderRadius.all(Radius.circular(100))
-                : null,
+            borderRadius: widget.inputBorderRadius ??
+                (widget.inputShape == InputShape.rounded
+                    ? const BorderRadius.all(Radius.circular(100))
+                    : null),
             boxShadow: [
               BoxShadow(
                 color: widget.inputElevation == null
@@ -314,29 +325,30 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(
-                child: IconButton(
-                  onPressed: () {
-                    if (res.length >= widget.pinInputController.length) {
-                      widget.onSubmit();
-                      setState(() {
-                        errorText = '';
-                      });
-                    } else {
-                      setState(() {
-                        errorText = 'Please fill all fields';
-                      });
-                    }
-                  },
-                  // ignore: prefer_const_constructors
-                  icon: Icon(
-                    Icons.done,
-                    color: widget.inputFillColor ??
-                        widget.inputBorderColor ??
-                        Colors.black,
-                  ),
-                ),
-              ),
+              widget.extraInput == null
+                  ? Expanded(
+                      child: IconButton(
+                      onPressed: () {
+                        if (res.length >= widget.pinInputController.length) {
+                          widget.onSubmit();
+                          setState(() {
+                            errorText = '';
+                          });
+                        } else {
+                          setState(() {
+                            errorText = 'Please fill all fields';
+                          });
+                        }
+                      },
+                      // ignore: prefer_const_constructors
+                      icon: Icon(
+                        Icons.done,
+                        color: widget.inputFillColor ??
+                            widget.inputBorderColor ??
+                            Colors.black,
+                      ),
+                    ))
+                  : keyboardButtons(widget.extraInput!),
               keyboardButtons("0"),
 
               ///  keyboardButtons("X"),
@@ -355,10 +367,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                   /// ignore: prefer_const_constructors
                   icon: Icon(
                     Icons.backspace,
-                    color: widget.btnTextColor ??
-                        widget.buttonFillColor ??
-                        widget.buttonBorderColor ??
-                        Colors.black,
+                    color: widget.cancelColor ?? Colors.black,
                   ),
                 ),
               ),

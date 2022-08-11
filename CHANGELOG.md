@@ -31,3 +31,5 @@
 - fixed cancel and done button color to take fiiled color or border color
 
 ## 0.0.10
+
+## 2.0.0
