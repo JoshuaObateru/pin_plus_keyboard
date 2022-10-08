@@ -81,7 +81,7 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
       this.inputBorderRadius,
       this.inputHeight,
       this.cancelColor,
-      this.keyboardFontFamily,
+      required this.keyboardFontFamily,
       this.extraInput,
       this.backButton,
        this.doneButton,
