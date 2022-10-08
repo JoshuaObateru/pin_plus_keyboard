@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pin_plus_keyboard/package/controllers/pin_input_controller.dart';
 
-enum KeyboardButtonShape { circlar, rounded, defaultShape }
+enum KeyboardButtonShape { circular, rounded, defaultShape }
 
-enum InputShape { circlar, rounded, defaultShape }
+enum InputShape { circular, rounded, defaultShape }
+
+enum InputType { dash, box }
 
 class PinPlusKeyBoardPackage extends StatefulWidget {
   final KeyboardButtonShape keyboardButtonShape;
@@ -13,13 +15,12 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
   final double spacing;
   final Color? buttonFillColor;
   final Color? buttonBorderColor;
-  final Icon? doneButton;
   final Color? btnTextColor;
   final bool btnHasBorder;
   final double? btnBorderThickness;
   final double? btnElevation;
   final Color? btnShadowColor;
-  final double? inputSize;
+  final double? inputWidth;
   final bool isInputHidden;
   final Color inputHiddenColor;
   final double inputsMaxWidth;
@@ -35,10 +36,17 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
   final Color errorColor;
   final double? keyboardFontSize;
   final BorderRadius? inputBorderRadius;
-  final double? inputHeignt;
+  final double? inputHeight;
   final Color? cancelColor;
   final String? extraInput;
   final Icon? backButton;
+    final Icon? doneButton;
+  final InputType inputType;
+  final BorderRadius? keyoardBtnBorderRadius;
+  final TextStyle? inputTextStyle;
+  final Widget? leftExtraInputWidget;
+  final double? keyboardBtnSize;
+  final Color? focusColor;
 
   const PinPlusKeyBoardPackage(
       {Key? key,
@@ -52,11 +60,9 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
       this.btnHasBorder = true,
       this.btnTextColor,
       this.btnBorderThickness,
-       this.buttonDoneButton,        
       this.btnElevation,
-       this.doneButton,
       this.btnShadowColor,
-      this.inputSize,
+      this.inputWidth,
       this.isInputHidden = false,
       this.inputHiddenColor = Colors.black,
       this.inputsMaxWidth = 70,
@@ -72,10 +78,17 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
       this.errorColor = Colors.red,
       this.keyboardFontSize,
       this.inputBorderRadius,
-      this.inputHeignt,
+      this.inputHeight,
       this.cancelColor,
       this.extraInput,
-      this.backButton})
+      this.backButton,
+       this.doneButton,
+      this.inputType = InputType.box,
+      this.keyoardBtnBorderRadius,
+      this.inputTextStyle,
+      this.leftExtraInputWidget,
+      this.keyboardBtnSize,
+      this.focusColor})
       : super(key: key);
 
   @override
@@ -146,12 +159,14 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
           },
           child: Container(
             alignment: Alignment.center,
-            width: widget.keyboardButtonShape == KeyboardButtonShape.circlar
-                ? _sizeW * 0.13
-                : _sizeW * 0.1,
-            height: widget.keyboardButtonShape == KeyboardButtonShape.circlar
-                ? _sizeW * 0.13
-                : _sizeW * 0.1,
+            width: widget.keyboardBtnSize ??
+                (widget.keyboardButtonShape == KeyboardButtonShape.circular
+                    ? _sizeW * 0.13
+                    : _sizeW * 0.1),
+            height: widget.keyboardBtnSize ??
+                (widget.keyboardButtonShape == KeyboardButtonShape.circular
+                    ? _sizeW * 0.13
+                    : _sizeW * 0.1),
             decoration: BoxDecoration(
                 color: widget.buttonFillColor ?? Colors.transparent,
                 border: widget.btnHasBorder == true
@@ -160,10 +175,10 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                         width: widget.btnBorderThickness ?? 1,
                       )
                     : null,
-                borderRadius:
-                    widget.keyboardButtonShape == KeyboardButtonShape.rounded
+                borderRadius: widget.keyoardBtnBorderRadius ??
+                    (widget.keyboardButtonShape == KeyboardButtonShape.rounded
                         ? BorderRadius.circular(_sizeW)
-                        : null,
+                        : null),
                 boxShadow: [
                   BoxShadow(
                     color: widget.btnElevation == null
@@ -177,7 +192,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                         widget.btnElevation ?? 0), // changes position of shadow
                   ),
                 ],
-                shape: widget.keyboardButtonShape == KeyboardButtonShape.circlar
+                shape: widget.keyboardButtonShape == KeyboardButtonShape.circular
                     ? BoxShape.circle
                     : BoxShape.rectangle),
             child: Text(
@@ -213,16 +228,25 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
   Widget inputWidget(int position) {
     try {
       return Container(
-        height: widget.inputHeignt ??
-            widget.inputSize ??
+        height: widget.inputHeight ??
+            widget.inputWidth ??
             MediaQuery.of(context).size.width * 0.1,
-        width: widget.inputSize ?? MediaQuery.of(context).size.width * 0.1,
+        width: widget.inputWidth ?? MediaQuery.of(context).size.width * 0.1,
         decoration: BoxDecoration(
-            border: widget.inputHasBorder == false
-                ? null
-                : Border.all(
-                    color: widget.inputBorderColor ?? Colors.black,
-                    width: widget.inputBorderThickness ?? 0),
+            border: widget.inputType == InputType.dash
+                ? Border(
+                    bottom: BorderSide(
+                        color: widget.focusColor ??
+                            widget.inputBorderColor ??
+                            Colors.black,
+                        width: widget.inputBorderThickness ?? 0))
+                : widget.inputHasBorder == false
+                    ? null
+                    : Border.all(
+                        color: widget.focusColor ??
+                            widget.inputBorderColor ??
+                            Colors.black,
+                        width: widget.inputBorderThickness ?? 0),
             color: widget.isInputHidden == true
                 ? widget.inputHiddenColor
                 : Colors.transparent,
@@ -243,7 +267,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                     widget.inputElevation ?? 0), // changes position of shadow
               ),
             ],
-            shape: widget.inputShape == InputShape.circlar
+            shape: widget.inputShape == InputShape.circular
                 ? BoxShape.circle
                 : BoxShape.rectangle),
         child: Center(
@@ -251,26 +275,32 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
           res[position],
 
           /// ignore: prefer_const_constructors
-          style: TextStyle(
-            color: widget.isInputHidden == true
-                ? widget.inputHiddenColor
-                : widget.inputTextColor ?? Colors.black,
-          ),
+          style: widget.inputTextStyle ??
+              TextStyle(
+                color: widget.isInputHidden == true
+                    ? widget.inputHiddenColor
+                    : widget.inputTextColor ?? Colors.black,
+              ),
         )),
       );
     } catch (e) {
       return Container(
-        height: widget.inputHeignt ??
-            widget.inputSize ??
+        height: widget.inputHeight ??
+            widget.inputWidth ??
             MediaQuery.of(context).size.width * 0.1,
-        width: widget.inputSize ?? MediaQuery.of(context).size.width * 0.1,
+        width: widget.inputWidth ?? MediaQuery.of(context).size.width * 0.1,
         decoration: BoxDecoration(
             color: widget.inputFillColor ?? Colors.transparent,
-            border: widget.inputHasBorder == false
-                ? null
-                : Border.all(
-                    color: widget.inputBorderColor ?? Colors.black,
-                    width: widget.inputBorderThickness ?? 0),
+            border: widget.inputType == InputType.dash
+                ? Border(
+                    bottom: BorderSide(
+                        color: widget.inputBorderColor ?? Colors.black,
+                        width: widget.inputBorderThickness ?? 0))
+                : widget.inputHasBorder == false
+                    ? null
+                    : Border.all(
+                        color: widget.inputBorderColor ?? Colors.black,
+                        width: widget.inputBorderThickness ?? 0),
             borderRadius: widget.inputBorderRadius ??
                 (widget.inputShape == InputShape.rounded
                     ? const BorderRadius.all(Radius.circular(100))
@@ -288,7 +318,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                     widget.inputElevation ?? 0), // changes position of shadow
               ),
             ],
-            shape: widget.inputShape == InputShape.circlar
+            shape: widget.inputShape == InputShape.circular
                 ? BoxShape.circle
                 : BoxShape.rectangle),
       );
@@ -330,30 +360,32 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              widget.extraInput == null
-                  ? Expanded(
-                      child: IconButton(
-                      onPressed: () {
-                        if (res.length >= widget.pinInputController.length) {
-                          widget.onSubmit();
-                          setState(() {
-                            errorText = '';
-                          });
-                        } else {
-                          setState(() {
-                            errorText = 'Please fill all fields';
-                          });
-                        }
-                      },
-                      // ignore: prefer_const_constructors
-                      icon: widget.doneButton ?? Icon(
-                        Icons.done,
-                        color: widget.inputFillColor ??
-                            widget.inputBorderColor ??
-                            Colors.black,
-                      ),
-                    ))
-                  : keyboardButtons(widget.extraInput!),
+              widget.leftExtraInputWidget ??
+                  (widget.extraInput == null
+                      ? Expanded(
+                          child: IconButton(
+                          onPressed: () {
+                            if (res.length >=
+                                widget.pinInputController.length) {
+                              widget.onSubmit();
+                              setState(() {
+                                errorText = '';
+                              });
+                            } else {
+                              setState(() {
+                                errorText = 'Please fill all fields';
+                              });
+                            }
+                          },
+                          // ignore: prefer_const_constructors
+                          icon: widget.doneButton ?? Icon(
+                            Icons.done,
+                            color: widget.inputFillColor ??
+                                widget.inputBorderColor ??
+                                Colors.black,
+                          ),
+                        ))
+                      : keyboardButtons(widget.extraInput!)),
               keyboardButtons("0"),
 
               ///  keyboardButtons("X"),
