@@ -13,6 +13,7 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
   final double spacing;
   final Color? buttonFillColor;
   final Color? buttonBorderColor;
+  final Icon? doneButton;
   final Color? btnTextColor;
   final bool btnHasBorder;
   final double? btnBorderThickness;
@@ -37,7 +38,7 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
   final double? inputHeignt;
   final Color? cancelColor;
   final String? extraInput;
-  final Widget? backButton;
+  final Icon? backButton;
 
   const PinPlusKeyBoardPackage(
       {Key? key,
@@ -51,6 +52,7 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
       this.btnHasBorder = true,
       this.btnTextColor,
       this.btnBorderThickness,
+       this.buttonDoneButton,        
       this.btnElevation,
       this.btnShadowColor,
       this.inputSize,
@@ -343,7 +345,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                         }
                       },
                       // ignore: prefer_const_constructors
-                      icon: Icon(
+                      icon: widget.doneButton ?? Icon(
                         Icons.done,
                         color: widget.inputFillColor ??
                             widget.inputBorderColor ??
