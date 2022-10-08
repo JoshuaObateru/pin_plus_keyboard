@@ -54,6 +54,7 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
       this.btnBorderThickness,
        this.buttonDoneButton,        
       this.btnElevation,
+       this.doneButton,
       this.btnShadowColor,
       this.inputSize,
       this.isInputHidden = false,
