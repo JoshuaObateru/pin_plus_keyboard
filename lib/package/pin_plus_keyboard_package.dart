@@ -201,7 +201,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
               number,
               textAlign: TextAlign.center,
               style: TextStyle(
-                   fontFamily: widget.keyboardFontFamily,
+                   fontFamily: widget.keyboardFontFamily ?? '',
                   color: widget.btnTextColor ?? Colors.black,
                   fontSize: widget.keyboardFontSize ?? _sizeW * 0.05),
             ),
