@@ -47,6 +47,7 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
   final Widget? leftExtraInputWidget;
   final double? keyboardBtnSize;
   final Color? focusColor;
+  final String keyboardFontFamily;
 
   const PinPlusKeyBoardPackage(
       {Key? key,
@@ -80,6 +81,7 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
       this.inputBorderRadius,
       this.inputHeight,
       this.cancelColor,
+      this.keyboardFontFamily,
       this.extraInput,
       this.backButton,
        this.doneButton,
@@ -199,6 +201,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
               number,
               textAlign: TextAlign.center,
               style: TextStyle(
+                   fontFamily: widget.keyboardFontFamily,
                   color: widget.btnTextColor ?? Colors.black,
                   fontSize: widget.keyboardFontSize ?? _sizeW * 0.05),
             ),
