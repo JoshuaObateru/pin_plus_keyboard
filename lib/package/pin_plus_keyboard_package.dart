@@ -40,14 +40,14 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
   final Color? cancelColor;
   final String? extraInput;
   final Icon? backButton;
-    final Icon? doneButton;
+  final Icon? doneButton;
   final InputType inputType;
   final BorderRadius? keyoardBtnBorderRadius;
   final TextStyle? inputTextStyle;
   final Widget? leftExtraInputWidget;
   final double? keyboardBtnSize;
   final Color? focusColor;
-  final String keyboardFontFamily;
+  final String? keyboardFontFamily;
 
   const PinPlusKeyBoardPackage(
       {Key? key,
@@ -84,7 +84,7 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
       required this.keyboardFontFamily,
       this.extraInput,
       this.backButton,
-       this.doneButton,
+      this.doneButton,
       this.inputType = InputType.box,
       this.keyoardBtnBorderRadius,
       this.inputTextStyle,
@@ -152,9 +152,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
     double _sizeW = MediaQuery.of(context).size.width;
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            vertical: widget.keyboardVerticalSpacing,
-            horizontal: _sizeW * 0.01),
+        padding: EdgeInsets.symmetric(vertical: widget.keyboardVerticalSpacing, horizontal: _sizeW * 0.01),
         child: GestureDetector(
           onTap: () {
             btnClicked(number);
@@ -162,13 +160,9 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
           child: Container(
             alignment: Alignment.center,
             width: widget.keyboardBtnSize ??
-                (widget.keyboardButtonShape == KeyboardButtonShape.circular
-                    ? _sizeW * 0.13
-                    : _sizeW * 0.1),
+                (widget.keyboardButtonShape == KeyboardButtonShape.circular ? _sizeW * 0.13 : _sizeW * 0.1),
             height: widget.keyboardBtnSize ??
-                (widget.keyboardButtonShape == KeyboardButtonShape.circular
-                    ? _sizeW * 0.13
-                    : _sizeW * 0.1),
+                (widget.keyboardButtonShape == KeyboardButtonShape.circular ? _sizeW * 0.13 : _sizeW * 0.1),
             decoration: BoxDecoration(
                 color: widget.buttonFillColor ?? Colors.transparent,
                 border: widget.btnHasBorder == true
@@ -178,9 +172,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                       )
                     : null,
                 borderRadius: widget.keyoardBtnBorderRadius ??
-                    (widget.keyboardButtonShape == KeyboardButtonShape.rounded
-                        ? BorderRadius.circular(_sizeW)
-                        : null),
+                    (widget.keyboardButtonShape == KeyboardButtonShape.rounded ? BorderRadius.circular(_sizeW) : null),
                 boxShadow: [
                   BoxShadow(
                     color: widget.btnElevation == null
@@ -190,18 +182,16 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                             Colors.black.withOpacity(0.6),
                     spreadRadius: 3,
                     blurRadius: 9,
-                    offset: Offset(0,
-                        widget.btnElevation ?? 0), // changes position of shadow
+                    offset: Offset(0, widget.btnElevation ?? 0), // changes position of shadow
                   ),
                 ],
-                shape: widget.keyboardButtonShape == KeyboardButtonShape.circular
-                    ? BoxShape.circle
-                    : BoxShape.rectangle),
+                shape:
+                    widget.keyboardButtonShape == KeyboardButtonShape.circular ? BoxShape.circle : BoxShape.rectangle),
             child: Text(
               number,
               textAlign: TextAlign.center,
               style: TextStyle(
-                   fontFamily: widget.keyboardFontFamily ?? Theme.of(context).textTheme.titleMedium?.fontFamily,
+                  fontFamily: widget.keyboardFontFamily ?? Theme.of(context).textTheme.titleMedium?.fontFamily,
                   color: widget.btnTextColor ?? Colors.black,
                   fontSize: widget.keyboardFontSize ?? _sizeW * 0.05),
             ),
@@ -231,32 +221,22 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
   Widget inputWidget(int position) {
     try {
       return Container(
-        height: widget.inputHeight ??
-            widget.inputWidth ??
-            MediaQuery.of(context).size.width * 0.1,
+        height: widget.inputHeight ?? widget.inputWidth ?? MediaQuery.of(context).size.width * 0.1,
         width: widget.inputWidth ?? MediaQuery.of(context).size.width * 0.1,
         decoration: BoxDecoration(
             border: widget.inputType == InputType.dash
                 ? Border(
                     bottom: BorderSide(
-                        color: widget.focusColor ??
-                            widget.inputBorderColor ??
-                            Colors.black,
+                        color: widget.focusColor ?? widget.inputBorderColor ?? Colors.black,
                         width: widget.inputBorderThickness ?? 0))
                 : widget.inputHasBorder == false
                     ? null
                     : Border.all(
-                        color: widget.focusColor ??
-                            widget.inputBorderColor ??
-                            Colors.black,
+                        color: widget.focusColor ?? widget.inputBorderColor ?? Colors.black,
                         width: widget.inputBorderThickness ?? 0),
-            color: widget.isInputHidden == true
-                ? widget.inputHiddenColor
-                : Colors.transparent,
+            color: widget.isInputHidden == true ? widget.inputHiddenColor : Colors.transparent,
             borderRadius: widget.inputBorderRadius ??
-                (widget.inputShape == InputShape.rounded
-                    ? const BorderRadius.all(Radius.circular(100))
-                    : null),
+                (widget.inputShape == InputShape.rounded ? const BorderRadius.all(Radius.circular(100)) : null),
             boxShadow: [
               BoxShadow(
                 color: widget.inputElevation == null
@@ -266,13 +246,10 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                         Colors.black.withOpacity(0.6),
                 spreadRadius: 3,
                 blurRadius: 9,
-                offset: Offset(0,
-                    widget.inputElevation ?? 0), // changes position of shadow
+                offset: Offset(0, widget.inputElevation ?? 0), // changes position of shadow
               ),
             ],
-            shape: widget.inputShape == InputShape.circular
-                ? BoxShape.circle
-                : BoxShape.rectangle),
+            shape: widget.inputShape == InputShape.circular ? BoxShape.circle : BoxShape.rectangle),
         child: Center(
             child: Text(
           res[position],
@@ -280,34 +257,26 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
           /// ignore: prefer_const_constructors
           style: widget.inputTextStyle ??
               TextStyle(
-                color: widget.isInputHidden == true
-                    ? widget.inputHiddenColor
-                    : widget.inputTextColor ?? Colors.black,
+                color: widget.isInputHidden == true ? widget.inputHiddenColor : widget.inputTextColor ?? Colors.black,
               ),
         )),
       );
     } catch (e) {
       return Container(
-        height: widget.inputHeight ??
-            widget.inputWidth ??
-            MediaQuery.of(context).size.width * 0.1,
+        height: widget.inputHeight ?? widget.inputWidth ?? MediaQuery.of(context).size.width * 0.1,
         width: widget.inputWidth ?? MediaQuery.of(context).size.width * 0.1,
         decoration: BoxDecoration(
             color: widget.inputFillColor ?? Colors.transparent,
             border: widget.inputType == InputType.dash
                 ? Border(
                     bottom: BorderSide(
-                        color: widget.inputBorderColor ?? Colors.black,
-                        width: widget.inputBorderThickness ?? 0))
+                        color: widget.inputBorderColor ?? Colors.black, width: widget.inputBorderThickness ?? 0))
                 : widget.inputHasBorder == false
                     ? null
                     : Border.all(
-                        color: widget.inputBorderColor ?? Colors.black,
-                        width: widget.inputBorderThickness ?? 0),
+                        color: widget.inputBorderColor ?? Colors.black, width: widget.inputBorderThickness ?? 0),
             borderRadius: widget.inputBorderRadius ??
-                (widget.inputShape == InputShape.rounded
-                    ? const BorderRadius.all(Radius.circular(100))
-                    : null),
+                (widget.inputShape == InputShape.rounded ? const BorderRadius.all(Radius.circular(100)) : null),
             boxShadow: [
               BoxShadow(
                 color: widget.inputElevation == null
@@ -317,13 +286,10 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                         Colors.black.withOpacity(0.6),
                 spreadRadius: 3,
                 blurRadius: 9,
-                offset: Offset(0,
-                    widget.inputElevation ?? 0), // changes position of shadow
+                offset: Offset(0, widget.inputElevation ?? 0), // changes position of shadow
               ),
             ],
-            shape: widget.inputShape == InputShape.circular
-                ? BoxShape.circle
-                : BoxShape.rectangle),
+            shape: widget.inputShape == InputShape.circular ? BoxShape.circle : BoxShape.rectangle),
       );
     }
   }
@@ -368,8 +334,7 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                       ? Expanded(
                           child: IconButton(
                           onPressed: () {
-                            if (res.length >=
-                                widget.pinInputController.length) {
+                            if (res.length >= widget.pinInputController.length) {
                               widget.onSubmit();
                               setState(() {
                                 errorText = '';
@@ -381,12 +346,11 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage> {
                             }
                           },
                           // ignore: prefer_const_constructors
-                          icon: widget.doneButton ?? Icon(
-                            Icons.done,
-                            color: widget.inputFillColor ??
-                                widget.inputBorderColor ??
-                                Colors.black,
-                          ),
+                          icon: widget.doneButton ??
+                              Icon(
+                                Icons.done,
+                                color: widget.inputFillColor ?? widget.inputBorderColor ?? Colors.black,
+                              ),
                         ))
                       : keyboardButtons(widget.extraInput!)),
               keyboardButtons("0"),
