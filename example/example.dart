@@ -39,10 +39,7 @@ class _ExampleState extends State<Example> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Enter Passcode",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w300,
-                        fontSize: size.width * 0.05),
+                    style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w300, fontSize: size.width * 0.05),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -56,6 +53,7 @@ class _ExampleState extends State<Example> {
                     /// ignore: avoid_print
                     print("Text is : " + pinInputController.text);
                   },
+                  keyboardFontFamily: '',
                 ),
               ],
             )));
