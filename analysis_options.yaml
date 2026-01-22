@@ -1,4 +1,66 @@
+# This file configures the Dart analyzer to help catch errors and enforce best practices
+# For more information, see: https://dart.dev/guides/language/analysis-options
+
 include: package:flutter_lints/flutter.yaml
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+# Additional linter rules for better code quality
+linter:
+  rules:
+    # Error rules - these help catch bugs
+    - always_declare_return_types
+    - avoid_empty_else
+    - avoid_print
+    - avoid_relative_lib_imports
+    - avoid_returning_null_for_future
+    - avoid_unnecessary_containers
+    - avoid_void_async
+    - cancel_subscriptions
+    - close_sinks
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_final_fields
+    - prefer_final_locals
+    - prefer_single_quotes
+    - sort_pub_dependencies
+    - use_key_in_widget_constructors
+    
+    # Style rules - these improve code readability
+    - always_put_required_named_parameters_first
+    - always_use_package_imports
+    - avoid_redundant_argument_values
+    - avoid_types_as_parameter_names
+    - curly_braces_in_flow_control_structures
+    - prefer_adjacent_string_concatenation
+    - prefer_collection_literals
+    - prefer_conditional_assignment
+    - prefer_const_constructors_in_immutables
+    - prefer_expression_function_bodies
+    - prefer_final_in_for_each
+    - prefer_if_elements_to_conditional_expressions
+    - prefer_inlined_adds
+    - prefer_is_empty
+    - prefer_is_not_empty
+    - prefer_spread_collections
+    - sort_child_properties_last
+    - use_full_hex_values_for_flutter_colors
+    - use_rethrow_when_possible
+
+# Analyzer configuration
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  
+  # Enable all error types
+  errors:
+    # Treat missing required parameters as errors
+    missing_required_param: error
+    # Treat missing return types as errors
+    missing_return: error
+    # Treat unused imports as warnings
+    unused_import: warning
+    # Treat unused elements as warnings
+    unused_element: warning
+    # Treat unused local variables as warnings
+    unused_local_variable: warning
+
