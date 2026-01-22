@@ -1,11 +1,17 @@
 name: pin_plus_keyboard
 description: A flutter package that gives you custom input fields and a custom keyboard for one time password widgets, transaction pin widgets and simple login widgets.
-version: 2.0.2
+version: 3.0.0
 homepage: https://github.com/JoshuaObateru/pin_plus_keyboard
+repository: https://github.com/JoshuaObateru/pin_plus_keyboard
+issue_tracker: https://github.com/JoshuaObateru/pin_plus_keyboard/issues
 
+# Updated to support latest stable Flutter/Dart versions
+# Dart 3.4+ provides enhanced null safety, pattern matching, and performance improvements
+# Flutter 3.24+ provides improved stability, Material 3 support, and new features
+# These versions ensure compatibility with the latest Flutter ecosystem
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.17.0"
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.24.0"
 
 dependencies:
   flutter:
@@ -14,7 +20,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  # Latest lints package for comprehensive code quality checks
+  # This helps catch bugs, enforce best practices, and maintain code consistency
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
