@@ -35,6 +35,7 @@ A highly customizable Flutter package that provides custom input fields and a cu
 - Screenshot blocking (Android)
 - Rate limiting for failed attempts
 - Secure input handling
+- Random keyboard layout (shoulder surfing protection)
 
 🔐 **Biometric Integration**
 - Face ID / Touch ID / Fingerprint support
@@ -255,6 +256,33 @@ PinPlusKeyBoardPackage(
   rateLimitWindow: Duration(minutes: 15),
 )
 ```
+
+### Example with Random Keyboard Layout
+
+The random keyboard feature shuffles the positions of numbers 1-9 on the keyboard, making it harder for observers to see which numbers are being pressed (shoulder surfing protection). The zero button always remains in the center position.
+
+```dart
+PinPlusKeyBoardPackage(
+  pinInputController: _pinController,
+  spacing: 40,
+  onSubmit: () {
+    // Handle PIN submission
+  },
+  // Enable random keyboard layout
+  enableRandomKeyboard: true,
+  // Reshuffle when PIN is cleared (optional)
+  reshuffleOnClear: true,
+  // Reshuffle when app comes to foreground (optional)
+  reshuffleOnResume: true,
+)
+```
+
+**Security Benefits:**
+- **Shoulder Surfing Protection**: Random number positions make it difficult for observers to determine which numbers are being pressed
+- **Enhanced Privacy**: Even if someone watches you enter your PIN, they can't easily replicate it on a standard keyboard layout
+- **Flexible Reshuffling**: Choose when to reshuffle - on initialization, on clear, or when app resumes
+
+**Note:** The random layout only affects numbers 1-9. The zero button (0) always remains in the center position of the bottom row for consistency.
 
 ### Example with Theme Presets
 
@@ -643,6 +671,14 @@ The main widget that displays the PIN input fields and keyboard.
 | `enableScreenshotBlocking` | `bool` | `false` | Enable screenshot blocking (Android only) |
 | `maxFailedAttempts` | `int` | `5` | Max failed attempts before rate limiting |
 | `rateLimitWindow` | `Duration` | `15 minutes` | Time window for rate limiting |
+
+##### Random Keyboard Layout
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `enableRandomKeyboard` | `bool` | `false` | Enable random keyboard layout (shuffles numbers 1-9) |
+| `reshuffleOnClear` | `bool` | `false` | Reshuffle keyboard when PIN is cleared |
+| `reshuffleOnResume` | `bool` | `false` | Reshuffle keyboard when app comes to foreground |
 
 ### PinThemePresets
 
