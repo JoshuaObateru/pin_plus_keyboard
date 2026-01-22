@@ -2,8 +2,9 @@ name: Publish to pub.dev
 
 on:
   push:
-    tags:
-      - 'v*.*.*'  # Trigger on version tags like v3.0.0
+    branches: [main]
+    # tags:
+    #   - 'v*.*.*'  # Trigger on version tags like v3.0.0
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
@@ -18,7 +19,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          # flutter-version: '3.24.0'
           channel: 'stable'
           cache: true
 
