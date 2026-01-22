@@ -23,13 +23,21 @@ class PinInputController extends ChangeNotifier {
   /// The current text value entered in the PIN fields.
   ///
   /// This value is updated as the user types or deletes characters.
-  String text;
+  /// 
+  /// **Note:** Do not assign to this field directly. Use [changeText] or [clear]
+  /// methods instead to ensure listeners are notified of changes.
+  String _text;
+
+  /// Gets the current text value.
+  ///
+  /// Use [changeText] or [clear] to modify the text value.
+  String get text => _text;
 
   /// Creates a new [PinInputController].
   ///
   /// [length] is required and specifies how many input fields to display.
   /// [text] is optional and defaults to an empty string.
-  PinInputController({required this.length, this.text = ''});
+  PinInputController({required this.length, String text = ''}) : _text = text;
 
   /// Updates the text value and notifies all listeners.
   ///
@@ -39,16 +47,27 @@ class PinInputController extends ChangeNotifier {
   ///
   /// [text] - The new text value to set.
   void changeText(String text) {
-    this.text = text;
-    notifyListeners();
+    if (_text != text) {
+      _text = text;
+      notifyListeners();
+    }
   }
 
   /// Clears the current text value.
   ///
   /// This is useful for resetting the PIN input after submission or error.
+  /// All listeners will be notified of the change.
+  ///
+  /// Example:
+  /// ```dart
+  /// // After validation error
+  /// pinInputController.clear();
+  /// ```
   void clear() {
-    text = '';
-    notifyListeners();
+    if (_text.isNotEmpty) {
+      _text = '';
+      notifyListeners();
+    }
   }
 
   /// Checks if the PIN input is complete (all fields filled).

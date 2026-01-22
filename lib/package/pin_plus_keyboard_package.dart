@@ -535,7 +535,17 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage>
   /// Callback when the controller notifies of changes
   void _onControllerChanged() {
     _updateInputNumbers();
-    _currentPin = widget.pinInputController.text;
+    final String newPin = widget.pinInputController.text;
+    final bool wasCleared = _currentPin.isNotEmpty && newPin.isEmpty;
+    
+    _currentPin = newPin;
+    
+    // If PIN was cleared, reset all fill animations
+    if (wasCleared && widget.enableAnimations) {
+      for (final controller in _fillControllers) {
+        controller.reset();
+      }
+    }
     
     // Reset security timer on user interaction
     if (widget.autoClearTimeout != null) {
