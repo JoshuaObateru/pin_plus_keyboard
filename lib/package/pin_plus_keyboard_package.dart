@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'dart:math' show Random;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -308,6 +309,22 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
   /// If provided, allows complete customization of button appearance
   final Widget Function(BuildContext context, String number)? keyboardButtonBuilder;
 
+  /// Enable random keyboard layout for enhanced security
+  /// When enabled, numbers 1-9 are shuffled randomly, making it harder
+  /// for observers to see which numbers are being pressed (shoulder surfing protection)
+  /// Default: false
+  final bool enableRandomKeyboard;
+
+  /// Reshuffle the keyboard layout when PIN is cleared
+  /// Only effective when [enableRandomKeyboard] is true
+  /// Default: false
+  final bool reshuffleOnClear;
+
+  /// Reshuffle the keyboard layout when app comes to foreground
+  /// Only effective when [enableRandomKeyboard] is true
+  /// Default: false
+  final bool reshuffleOnResume;
+
   /// Creates a [PinPlusKeyBoardPackage] widget.
   ///
   /// [pinInputController] and [onSubmit] are required.
@@ -385,6 +402,9 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
     this.inputGradient,
     this.inputFieldBuilder,
     this.keyboardButtonBuilder,
+    this.enableRandomKeyboard = false,
+    this.reshuffleOnClear = false,
+    this.reshuffleOnResume = false,
   });
 
   @override
@@ -395,13 +415,17 @@ class PinPlusKeyBoardPackage extends StatefulWidget {
 ///
 /// Manages the current PIN input value, error messages, animations, and security.
 class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   /// List of input field indices (0 to length-1)
   /// This is dynamically updated when the controller's length changes
   List<int> inputNumbers = [];
 
   /// Current PIN input value as a string
   String _currentPin = '';
+
+  /// Shuffled layout of numbers 1-9 for random keyboard
+  /// When [enableRandomKeyboard] is false, this remains null
+  List<String>? _shuffledNumbers;
 
   /// Error message to display (empty string means no error)
   String _errorText = '';
@@ -495,6 +519,16 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage>
       _securityService.enableScreenshotBlocking();
     }
 
+    // Initialize random keyboard layout if enabled
+    if (widget.enableRandomKeyboard) {
+      _shuffleKeyboard();
+    }
+
+    // Add lifecycle observer if reshuffle on resume is enabled
+    if (widget.enableRandomKeyboard && widget.reshuffleOnResume) {
+      WidgetsBinding.instance.addObserver(this);
+    }
+
     // Listen to controller changes
     widget.pinInputController.addListener(_onControllerChanged);
   }
@@ -502,6 +536,9 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage>
   @override
   void dispose() {
     widget.pinInputController.removeListener(_onControllerChanged);
+    if (widget.enableRandomKeyboard && widget.reshuffleOnResume) {
+      WidgetsBinding.instance.removeObserver(this);
+    }
     _shakeController.dispose();
     _successController.dispose();
     for (final controller in _fillControllers) {
@@ -512,6 +549,28 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage>
     }
     _securityService.dispose();
     super.dispose();
+  }
+
+  /// Shuffles the keyboard layout for numbers 1-9
+  /// Keeps 0 in the center position (bottom row)
+  void _shuffleKeyboard() {
+    if (!widget.enableRandomKeyboard) return;
+
+    final numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    numbers.shuffle(Random());
+    setState(() {
+      _shuffledNumbers = numbers;
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (widget.enableRandomKeyboard &&
+        widget.reshuffleOnResume &&
+        state == AppLifecycleState.resumed) {
+      _shuffleKeyboard();
+    }
   }
 
   /// Checks if biometric authentication is available
@@ -545,6 +604,13 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage>
       for (final controller in _fillControllers) {
         controller.reset();
       }
+    }
+
+    // Reshuffle keyboard on clear if enabled
+    if (wasCleared &&
+        widget.enableRandomKeyboard &&
+        widget.reshuffleOnClear) {
+      _shuffleKeyboard();
     }
     
     // Reset security timer on user interaction
@@ -1085,6 +1151,11 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage>
 
   /// Builds the custom numeric keyboard widget.
   Widget _buildCustomKeyboard({required Size size, required ColorScheme scheme}) {
+    // Use shuffled layout if enabled, otherwise use default layout
+    final numbers = widget.enableRandomKeyboard && _shuffledNumbers != null
+        ? _shuffledNumbers!
+        : ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
     return Container(
       constraints: BoxConstraints(
         maxWidth: size.width * (widget.keyboardMaxWidth / 100),
@@ -1092,31 +1163,31 @@ class _PinPlusKeyBoardPackageState extends State<PinPlusKeyBoardPackage>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // Row 1: 1, 2, 3
+          // Row 1: numbers[0], numbers[1], numbers[2]
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildKeyboardButton('1', scheme: scheme),
-              _buildKeyboardButton('2', scheme: scheme),
-              _buildKeyboardButton('3', scheme: scheme),
+              _buildKeyboardButton(numbers[0], scheme: scheme),
+              _buildKeyboardButton(numbers[1], scheme: scheme),
+              _buildKeyboardButton(numbers[2], scheme: scheme),
             ],
           ),
-          // Row 2: 4, 5, 6
+          // Row 2: numbers[3], numbers[4], numbers[5]
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildKeyboardButton('4', scheme: scheme),
-              _buildKeyboardButton('5', scheme: scheme),
-              _buildKeyboardButton('6', scheme: scheme),
+              _buildKeyboardButton(numbers[3], scheme: scheme),
+              _buildKeyboardButton(numbers[4], scheme: scheme),
+              _buildKeyboardButton(numbers[5], scheme: scheme),
             ],
           ),
-          // Row 3: 7, 8, 9
+          // Row 3: numbers[6], numbers[7], numbers[8]
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildKeyboardButton('7', scheme: scheme),
-              _buildKeyboardButton('8', scheme: scheme),
-              _buildKeyboardButton('9', scheme: scheme),
+              _buildKeyboardButton(numbers[6], scheme: scheme),
+              _buildKeyboardButton(numbers[7], scheme: scheme),
+              _buildKeyboardButton(numbers[8], scheme: scheme),
             ],
           ),
           // Row 4: Biometric/Extra input/Done, 0, Backspace
