@@ -120,6 +120,27 @@ void main() {
           reason: 'Listeners should be notified when text is cleared');
     });
 
+    /// Test that clear() doesn't notify if text is already empty
+    ///
+    /// This is a performance optimization - no need to notify if nothing changed.
+    test('should not notify listeners when clearing already empty text', () {
+      // Arrange
+      final controller = PinInputController(length: 4);
+      var notificationCount = 0;
+      controller.addListener(() {
+        notificationCount++;
+      });
+
+      // Act - clear when already empty
+      controller.clear();
+
+      // Assert
+      expect(controller.text, isEmpty,
+          reason: 'Text should still be empty');
+      expect(notificationCount, equals(0),
+          reason: 'Listeners should not be notified when clearing already empty text');
+    });
+
     /// Test that isComplete returns true only when text length equals length
     ///
     /// This ensures that the completion status is correctly calculated

@@ -339,6 +339,86 @@ PinPlusKeyBoardPackage(
 )
 ```
 
+### Example: Clearing PIN Input
+
+To clear the PIN input (e.g., after validation error or successful submission), use the `clear()` method on the controller:
+
+```dart
+// ❌ INCORRECT - This will NOT work:
+// pinInputController.text = '';  // Don't do this!
+
+// ✅ CORRECT - Use the clear() method:
+pinInputController.clear();
+
+// Alternative - Use changeText() with empty string:
+// pinInputController.changeText('');
+```
+
+**Complete example with error handling:**
+
+```dart
+class PinEntryScreen extends StatefulWidget {
+  const PinEntryScreen({super.key});
+
+  @override
+  State<PinEntryScreen> createState() => _PinEntryScreenState();
+}
+
+class _PinEntryScreenState extends State<PinEntryScreen> {
+  final PinInputController _pinController = PinInputController(length: 6);
+
+  void _handlePinSubmission() {
+    // Validate PIN (e.g., check with backend)
+    if (_isValidPin(_pinController.text)) {
+      // Success - clear PIN and navigate
+      _pinController.clear();
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+    } else {
+      // Error - show error message and clear PIN
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid PIN. Please try again.')),
+      );
+      // Clear the PIN input so user can try again
+      _pinController.clear();
+    }
+  }
+
+  bool _isValidPin(String pin) {
+    // Your validation logic here
+    return pin == '123456'; // Example
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PinPlusKeyBoardPackage(
+        pinInputController: _pinController,
+        spacing: 40,
+        onSubmit: _handlePinSubmission,
+        validator: (String pin) {
+          if (pin.length < 6) {
+            return 'PIN must be 6 digits';
+          }
+          return ''; // No error
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _pinController.dispose();
+    super.dispose();
+  }
+}
+```
+
+**Important Notes:**
+- Always use `pinInputController.clear()` to clear the PIN input
+- Do NOT directly assign to `pinInputController.text` as it won't trigger UI updates
+- The `clear()` method automatically notifies all listeners and resets animations
+- After clearing, the input fields will be empty and ready for new input
+
 ### Example with Gradients
 
 ```dart
@@ -423,10 +503,12 @@ The controller manages the state of the PIN input.
 
 #### Methods
 
-- `changeText(String text)`: Updates the PIN value
-- `clear()`: Clears the PIN value
+- `changeText(String text)`: Updates the PIN value and notifies all listeners
+- `clear()`: Clears the PIN value and notifies all listeners. **This is the recommended way to clear the PIN input.**
 - `addListener(VoidCallback listener)`: Listen to changes
 - `removeListener(VoidCallback listener)`: Remove listener
+
+**Important:** Do not directly assign to the `text` property. Always use `clear()` or `changeText()` methods to ensure the UI updates correctly.
 
 #### Getters
 
